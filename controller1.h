@@ -1,43 +1,39 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
+#include <linux/types.h>
+#include <sys/syscall.h>
+
 #define MAX_SYSCALL_NR 335
 #define MAX_ARGS 6
 
-#include <sys/syscall.h>
-
-typedef enum
-{
+typedef enum {
     SYS_ENTER,
     SYS_EXIT
 } event_mode;
 
-struct inner_syscall_info
-{
-    union
-    {
-        struct
-        {
+struct inner_syscall_info {
+    union {
+        struct {
             char name[32];
             int num_args;
             long syscall_nr;
             void *args[MAX_ARGS];
-            u64 timestamp;
+            __u64 timestamp;  // Changed from u64 to __u64
         };
         long retval;
     };
     event_mode mode;
 };
 
-// Добавляем структуру для статистики
 struct syscall_stats {
-        __u64 count;
-        __u64 total_time;
-        __u64 max_time;
-        __u64 min_time;
+    __u64 count;
+    __u64 total_time;
+    __u64 max_time;
+    __u64 min_time;
 };
 
-struct default_syscall_info{
+struct default_syscall_info {
     char name[32];
     int num_args;
 };
