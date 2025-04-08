@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <stdint.h>
 #include <string.h>
+#include <linux/types.h>
 
 void fatal_error(const char *message) {
     puts(message);
